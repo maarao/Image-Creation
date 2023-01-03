@@ -1,0 +1,18 @@
+Disk Image Creation
+
+sti02 - Windows
+Rename PC
+Remove optional apps
+Install Firefox and set as default borwser, WinFSP, Rclone, MSCVP120, Remote Backup, VLC, Auto-logon
+Rclone config with remote named 'gcs' and key file to '..\sti02\key.json'
+Put Remote Backup on startup with Task Scheduler triggers at logon. Disable stopping the task after 3 days and on battery
+Reboot monthly on the 15th at 12pm / Create bat to reboot
+Shortcut for reboot on Desktop
+Disable Sleep
+Group Policy Editor (Computer Configuration → Windows Settings → Security Settings → Local Policies → Security Options) change Interactive Logon: Machine inactivity limit to 120s
+Enable RDP
+Put launch_after.bat in Roaming startup folder and after.bat in sti02 root folder
+Set-ExecutionPolicy remotesigned
+Forget Network
+Switch Timezone
+Clear Downloads folder and quick access

@@ -1,0 +1,1 @@
+powershell -Command "Start-Process powershell -Verb RunAs -ArgumentList \"-file C:\Users\sti02\after.ps1\""

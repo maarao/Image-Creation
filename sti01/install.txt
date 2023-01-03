@@ -1,0 +1,25 @@
+Disk Image Creation
+
+sti01 - Linux
+sudo apt install curl
+
+export GCSFUSE_REPO=gcsfuse-`lsb_release -c -s`
+echo "deb https://packages.cloud.google.com/apt $GCSFUSE_REPO main" | sudo tee /etc/apt/sources.list.d/gcsfuse.list
+curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+
+sudo apt update -y && sudo apt upgrade -y && sudo apt install wine vlc gcsfuse -y
+
+
+// Install Teamviewer from the website
+Enable on-screen keyboard
+Disable sleep
+mkdir ~/backup
+wine RemoteBackup.exe
+ 
+ln -fs ~/backup ~/.wine/dosdevices/m:
+//command line to force and create a symbolic link to the s3 bucket folder
+Change drive in Remote Backup
+Change to m:
+Change to overwrite
+wine "/home/fresh/.wine/dosdevices/c:/Program Files (x86)/Remote Backup/Remote Backup/RemoteBackup.exe" // to startup
+“Alt-F2” “ gnome-session-properties” //startup
