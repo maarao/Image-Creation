@@ -1,0 +1,1 @@
+powershell -Command "Start-Process powershell -Verb RunAs -ArgumentList \"-command Set-ExecutionPolicy Unrestricted -Force; D:\install.ps1""

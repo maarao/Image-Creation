@@ -1,0 +1,2 @@
+sqlite3 RemoteNetBackup.db<RemoteNetBackupSQL.txt
+sqlite3 RemoteNetBackup.db

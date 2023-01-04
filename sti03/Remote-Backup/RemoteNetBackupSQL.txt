@@ -1,0 +1,146 @@
+
+BEGIN TRANSACTION;
+drop table if exists Device_Table;
+
+create table Device_Table(
+	DeviceID	integer,
+	IsUsed		boolean,--设备ID是否已经分配
+	DeviceIP	varchar(16),--设备IP
+	DeviceName      varchar(33),
+	Username	varchar(32),
+	Password	varchar(32),
+	Port		integer,
+	ConnectMode	integer,
+	Domain		varchar(128),
+        FlowCtrlValue	integer,
+	StartIP		integer,
+	ServerAddr      varchar(65),
+        DeviceAddr      varchar(65),
+        ServerPort      integer,
+	OsdUpdateTime   varchar(65)
+);
+
+drop table if exists Camera_Table;
+
+create table Camera_Table(
+	DeviceID	integer,
+	CameraIndex	integer,
+	IsAddToGroup	boolean,
+	GroupID		integer,
+	IsAddToManual	integer,--用来表示手动计划id
+	IsIP		integer,
+	OsdChannelName	varchar(256)
+);
+
+drop table if exists SystemConfig_Table;
+
+create table SystemConfig_Table(
+	IsAutoRun	boolean,
+	OSUsername	varchar(32),
+	OSPassword	varchar(256),
+	BackupMode	integer,
+	DiskMode	integer,
+	Disk		varchar(30),
+	IsEnableEmail	boolean,
+	ReconnetNum	integer,
+	BackupParallelNumber integer,
+	EmailWhenStartBackup boolean,
+	EmailWhenFinishBackup boolean,
+	EmailWhenBackupException boolean,
+	EmailWhenDiscardPastRecord boolean,
+	AutoChangeToPlanBackup boolean
+);
+
+drop table if exists Mail_Table;
+
+create table Mail_Table(
+	SMTPAddr	varchar(128),
+	MailFrom	varchar(128),
+	MailTo		varchar(128),
+	MailCc		varchar(128),
+	MailName	varchar(128),
+	MailPassword	varchar(64),
+	Body		varchar(256),
+	Subject		varchar(256),
+	SMTPPort	integer,
+	EncryptionType  integer
+);
+
+drop table if exists ScheduleWeekday_Table;
+
+create table ScheduleWeekday_Table(
+	GroupID		integer,
+	IsEanbel	boolean,
+	Weekday		integer,
+	TaskStartTime	datetime,
+	Duration	integer,
+	FileDate	integer,
+	FileStartTime	datetime,
+	FileEndTime	datetime,
+	FileType	integer,
+	StreamType  integer
+);
+
+drop table if exists ScheduleManul_Table;
+
+create table ScheduleManul_Table(
+	ManualPlanId	integer,
+	IsUsed          integer,
+	GroupName	varchar(34),
+	FileStartTime	datetime,
+	FileEndTime	datetime,
+	FileType	integer,
+	StreamType  integer,
+	IsChange	boolean,
+	FilePath	varchar(128),
+	OrderIndex	integer,
+	State		integer
+);
+
+drop table if exists Group_Table;
+
+create table Group_Table(
+	GroupID     	integer,
+	IsUsed		integer,
+	GroupName	varchar(34),
+	FilePath	varchar(128),
+	OrderIndex	integer,
+	State		integer,
+	StreamType  integer
+);
+
+drop table if exists Log_Table;
+
+create table Log_Table(
+	LogTime         datetime,
+	LogType		integer,
+	LogSubType      integer,
+	LogContents     varchar(256)
+);
+
+drop table if exists FileInfo_Table;
+
+create table FileInfo_Table(
+	FileStartTime   datetime,
+	FileStopTime    datetime,
+        FileType	integer,
+	DownloadState   integer,
+	FileSize        integer,
+        GroupID		integer,
+	CameraIndex	integer,
+        IsPast		integer,
+	BackupType      integer
+);
+
+drop table if exists TaskInfo_Table;
+
+create table TaskInfo_Table(
+	TaskTime	datetime,
+        GroupID		integer,
+	CameraIndex	integer,
+	DownloadState   integer,
+	TotalChannelSize	integer,
+        IsPast		integer,
+	BackupType      integer
+);
+COMMIT;
