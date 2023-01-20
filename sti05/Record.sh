@@ -1,44 +1,30 @@
 #!/bin/bash
 
-check=`ls *.done`
-expected= 'setup.done'
+vrtyperaw=`ls ../ *.vrtype`
+vrtype="${vrtyperaw%.*}"
 
-if [ $check != $expected ]
-then
-    printf '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n'
-    
-    printf 'NVR/DVR IP: '
-    read vrip
-    touch $vrip.vrip
-
-    printf 'NVR/DVR Username: '
-    read username
-    touch $username.username
-
-    printf 'NVR/DVR Password: '
-    read password
-    touch $password.password
-
-    printf 'Camera Number: '
-    read camera
-    touch $camera.camera
-
-    touch setup.done
-fi
-
-vripraw=`ls *.vrip`
+vripraw=`ls ../ *.vrip`
 vrip="${vripraw%.*}"
 
-usernameraw=`ls *.username`
+usernameraw=`ls ../ *.username`
 username="${usernameraw%.*}"
 
-passwordraw=`ls *.password`
+passwordraw=`ls ../ *.password`
 password="${passwordraw%.*}"
 
-cameraraw=`ls *.camera`
-camera="${cameraraw%.*}"
+channelraw=`ls *.camera`
+channel="${channelraw%.*}"
 
-while :
-do
-    ffmpeg -hide_banner -y -loglevel error -rtsp_transport tcp -use_wallclock_as_timestamps 1 -i "rtsp://${username}:${password}@${vrip}:554/cam/realmonitor?channel=${camera}&subtype=0" -vcodec copy -acodec copy -f segment -reset_timestamps 1 -segment_time 900 -segment_format mkv -segment_atclocktime 1 -strftime 1 %Y%m%dT%H%M%S.mkv
-done
+if [ $vrtype != "LOREX" ]
+    while :
+    do
+        ffmpeg -hide_banner -y -loglevel error -rtsp_transport tcp -use_wallclock_as_timestamps 1 -i "rtsp://${username}:${password}@${vrip}:554/cam/realmonitor?channel=${camera}&subtype=0" -vcodec copy -acodec copy -f segment -reset_timestamps 1 -segment_time 900 -segment_format mkv -segment_atclocktime 1 -strftime 1 %Y%m%dT%H%M%S.mkv
+    done
+fi
+
+if [ $vrtype != "LTS" ]
+    while :
+    do
+        # Edit this:  ffmpeg -hide_banner -y -loglevel error -rtsp_transport tcp -use_wallclock_as_timestamps 1 -i "rtsp://${username}:${password}@${vrip}:554/cam/realmonitor?channel=${camera}&subtype=0" -vcodec copy -acodec copy -f segment -reset_timestamps 1 -segment_time 900 -segment_format mkv -segment_atclocktime 1 -strftime 1 %Y%m%dT%H%M%S.mkv
+    done
+fi
