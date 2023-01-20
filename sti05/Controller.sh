@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# TODO: Change direcotires to the place where everything is stored
+# TODO: Change directories to the place where everything is stored
 
 check=`ls *.done`
 expected= "setup.done"
@@ -73,3 +73,23 @@ then
     touch setup.done
 fi
 
+novrsraw=`ls *.novrs`
+novrs="${novrsraw%.*}"
+novrsint=$((novrs))
+i=1
+
+# Iterate over all cameras and call their respective record scripts.
+while [ $i -le $novrsint ]
+do
+    cd System_$i
+    
+    nocamsraw=`ls *.nocams`
+    nocams="${nocamsraw%.*}"
+    nocamsint=$((nocams))
+    j=1
+    
+    while [ $j -le $nocamsint ]
+        cd Camera_$j
+        ./Record.sh &
+    do
+done
