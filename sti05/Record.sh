@@ -6,7 +6,7 @@ move_vid () {
     if (( $(echo "$dur > 10.00" |bc -l) ))
     then
         # Must have this directory created during setup
-        cp $1 ~/backup/System-$vrtype/Channel-$channel/
+        cp $1 ~/backup/System-$vrtype/Camera-$camera/
     fi
     
     # Garbage collection happening on disk right now. Change directory if you want it on gcp.
@@ -30,8 +30,8 @@ password="${passwordraw%.*}"
 
 cd $work_dir
 
-channelraw=`ls *.channel`
-channel="${channelraw%.*}"
+cameraraw=`ls *.camera`
+camera="${cameraraw%.*}"
 
 # Call the move function on anything that's already there
 # in case it couldn't move it before a reboot.
@@ -41,7 +41,7 @@ if [ $vrtype = "LOREX" ]
 then
     while :
     do
-        ffmpeg -hide_banner -y -loglevel error -rtsp_transport tcp -use_wallclock_as_timestamps 1 -i "rtsp://${username}:${password}@${vrip}:554/cam/realmonitor?channel=${channel}&subtype=0" -vcodec copy -acodec copy -f segment -reset_timestamps 1 -segment_time 900 -segment_format mkv -segment_atclocktime 1 -strftime 1 %Y-%m-%dT-%H-%M-%S.mkv
+        ffmpeg -hide_banner -y -loglevel error -rtsp_transport tcp -use_wallclock_as_timestamps 1 -i "rtsp://${username}:${password}@${vrip}:554/cam/realmonitor?channel=${camera}&subtype=0" -vcodec copy -acodec copy -f segment -reset_timestamps 1 -segment_time 900 -segment_format mkv -segment_atclocktime 1 -strftime 1 %Y-%m-%dT-%H-%M-%S.mkv
         move_vid `ls *.mkv`
     done
 fi
@@ -50,6 +50,6 @@ if [ $vrtype = "LTS" ]
 then
     while :
     do
-        # Edit this:  ffmpeg -hide_banner -y -loglevel error -rtsp_transport tcp -use_wallclock_as_timestamps 1 -i "rtsp://${username}:${password}@${vrip}:554/cam/realmonitor?channel=${channel}&subtype=0" -vcodec copy -acodec copy -f segment -reset_timestamps 1 -segment_time 900 -segment_format mkv -segment_atclocktime 1 -strftime 1 %Y-%m-%dT-%H-%M-%S.mkv
+        # Edit this:  ffmpeg -hide_banner -y -loglevel error -rtsp_transport tcp -use_wallclock_as_timestamps 1 -i "rtsp://${username}:${password}@${vrip}:554/cam/realmonitor?channel=${camera}&subtype=0" -vcodec copy -acodec copy -f segment -reset_timestamps 1 -segment_time 900 -segment_format mkv -segment_atclocktime 1 -strftime 1 %Y-%m-%dT-%H-%M-%S.mkv
     done
 fi

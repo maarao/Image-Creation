@@ -62,11 +62,11 @@ then
         do
             mkdir Camera-$j && cd Camera-$j
 
-            printf "Channel Number: "
-            read channel
-            touch $channel.channel
+            printf "Camera Number: "
+            read camera
+            touch $camera.camera
             
-            mkdir ~/backup/System-$i/Channel-$channel
+            mkdir ~/backup/System-$i/Camera-$camera
 
             cd ..
             
