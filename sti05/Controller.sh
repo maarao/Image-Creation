@@ -4,7 +4,7 @@
 cd ~/
 
 check=`ls *.done`
-expected="setup.done"
+expected='setup.done'
 
 # Setup
 if [ $check != $expected ]
