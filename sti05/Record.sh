@@ -28,7 +28,7 @@ username="${usernameraw%.*}"
 passwordraw=`ls *.password`
 password="${passwordraw%.*}"
 
-cd work_dir
+cd $work_dir
 
 channelraw=`ls *.camera`
 channel="${channelraw%.*}"
