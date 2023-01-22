@@ -70,12 +70,12 @@ then
 
             cd ..
             
-            let "j++"
+            ((j++))
         done
 
         cd ..
 
-        let "i++"
+        ((i++))
     done
     
     cd ~/
@@ -107,7 +107,7 @@ do
         bash -c "$(curl -fsSL https://raw.githubusercontent.com/maarao/Image-Creation/main/sti05/Record.sh)" &
         #bash <(curl -fsSL https://raw.githubusercontent.com/maarao/Image-Creation/main/sti05/Record.sh) &
 
-        let "j++"
+        ((j++))
         cd ..
     done
     
