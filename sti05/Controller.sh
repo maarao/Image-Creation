@@ -103,7 +103,7 @@ do
     while [ $j -le $nocamsint ]
         cd Camera-$j
 
-        wget -qO - <em>https://raw.githubusercontent.com/maarao/Image-Creation/main/sti05/Record.sh</em> | bash &
+        /bin/bash -c "$(https://raw.githubusercontent.com/maarao/Image-Creation/main/sti05/Record.sh)" &
 
         cd ..
     do
