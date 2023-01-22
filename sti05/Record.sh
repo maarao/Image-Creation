@@ -37,7 +37,7 @@ channel="${channelraw%.*}"
 # in case it couldn't move it before a reboot.
 move_vid `ls *.mkv`
 
-if [ $vrtype != "LOREX" ]
+if [ $vrtype = "LOREX" ]
 then
     while :
     do
@@ -46,7 +46,7 @@ then
     done
 fi
 
-if [ $vrtype != "LTS" ]
+if [ $vrtype = "LTS" ]
 then
     while :
     do
