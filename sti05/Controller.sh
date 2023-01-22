@@ -102,8 +102,10 @@ do
     
     while [ $j -le $nocamsint ]
     do
+        cd Camera-$j
 
-        bash -c "$(cd Camera-${j} && curl -fsSL https://raw.githubusercontent.com/maarao/Image-Creation/main/sti05/Record.sh)" &
+        # bash -c "$(curl -fsSL https://raw.githubusercontent.com/maarao/Image-Creation/main/sti05/Record.sh)" &
+        bash <(curl -fsSL https://raw.githubusercontent.com/maarao/Image-Creation/main/sti05/Record.sh) &
 
         cd ..
     done
