@@ -9,7 +9,7 @@ expected= "setup.done"
 # Setup
 if [ $check != $expected ]
 then
-    mkdir record && cd record
+    mkdir .record && cd .record
     # Delete all subdirectories if setting up again
     rm -R -- */
 
@@ -78,11 +78,12 @@ then
         let "i++"
     done
     
+    cd ~/
     touch setup.done
 
 fi
 
-cd record
+cd .record
 
 novrsraw=`ls *.novrs`
 novrs="${novrsraw%.*}"
