@@ -30,7 +30,7 @@ password="${passwordraw%.*}"
 
 cd $work_dir
 
-channelraw=`ls *.camera`
+channelraw=`ls *.channel`
 channel="${channelraw%.*}"
 
 # Call the move function on anything that's already there
