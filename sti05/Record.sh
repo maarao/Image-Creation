@@ -13,17 +13,22 @@ move_vid () {
     rm $1
 }
 
-vrtyperaw=`ls ../ *.vrtype`
+work_dir=`pwd`
+
+cd ..
+vrtyperaw=`ls *.vrtype`
 vrtype="${vrtyperaw%.*}"
 
-vripraw=`ls ../ *.vrip`
+vripraw=`ls *.vrip`
 vrip="${vripraw%.*}"
 
-usernameraw=`ls ../ *.username`
+usernameraw=`ls *.username`
 username="${usernameraw%.*}"
 
-passwordraw=`ls ../ *.password`
+passwordraw=`ls *.password`
 password="${passwordraw%.*}"
+
+cd work_dir
 
 channelraw=`ls *.camera`
 channel="${channelraw%.*}"
@@ -33,6 +38,7 @@ channel="${channelraw%.*}"
 move_vid `ls *.mkv`
 
 if [ $vrtype != "LOREX" ]
+then
     while :
     do
         ffmpeg -hide_banner -y -loglevel error -rtsp_transport tcp -use_wallclock_as_timestamps 1 -i "rtsp://${username}:${password}@${vrip}:554/cam/realmonitor?channel=${camera}&subtype=0" -vcodec copy -acodec copy -f segment -reset_timestamps 1 -segment_time 900 -segment_format mkv -segment_atclocktime 1 -strftime 1 %Y-%m-%dT-%H-%M-%S.mkv
@@ -41,6 +47,7 @@ if [ $vrtype != "LOREX" ]
 fi
 
 if [ $vrtype != "LTS" ]
+then
     while :
     do
         # Edit this:  ffmpeg -hide_banner -y -loglevel error -rtsp_transport tcp -use_wallclock_as_timestamps 1 -i "rtsp://${username}:${password}@${vrip}:554/cam/realmonitor?channel=${camera}&subtype=0" -vcodec copy -acodec copy -f segment -reset_timestamps 1 -segment_time 900 -segment_format mkv -segment_atclocktime 1 -strftime 1 %Y-%m-%dT-%H-%M-%S.mkv
