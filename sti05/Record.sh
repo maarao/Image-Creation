@@ -13,7 +13,7 @@ move_vid () {
     rm $1
 }
 
-work_dir=`pwd`
+work_dir="`pwd`"
 
 cd ..
 vrtyperaw=`ls *.vrtype`
