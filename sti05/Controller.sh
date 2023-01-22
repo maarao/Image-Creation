@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # TODO: Change directories to the place where everything is stored
+cd ~/
 
 check=`ls *.done`
 expected= "setup.done"
@@ -8,6 +9,7 @@ expected= "setup.done"
 # Setup
 if [ $check != $expected ]
 then
+    mkdir record && cd record
     # Delete all subdirectories if setting up again
     rm -R -- */
 
@@ -23,8 +25,9 @@ then
     i=1
     while [ $i -le $novrsint ]
     do
-        mkdir System_$i && cd System_$i
-        
+        mkdir System-$i && cd System-$i
+        mkdir ~/backup/System-$i
+
         printf "Brand of DVR / NVR:\n1.Lorex\n2.LTS:\n"
         read vrtype
         if [ $vrtype -eq "1" ]
@@ -57,10 +60,14 @@ then
         j=1
         while [ $j -le $nocamsint ]
         do
-            mkdir Camera_$j && cd Camera_$j
+            mkdir Camera-$j && cd Camera-$j
+
             printf "Channel Number: "
             read channel
             touch $channel.channel
+            
+            mkdir ~/backup/System-$i/Channel-$channel
+
             cd ..
             
             let "j++"
@@ -70,8 +77,12 @@ then
 
         let "i++"
     done
+    
     touch setup.done
+
 fi
+
+cd record
 
 novrsraw=`ls *.novrs`
 novrs="${novrsraw%.*}"
@@ -81,7 +92,7 @@ i=1
 # Iterate over all cameras and call their respective record scripts.
 while [ $i -le $novrsint ]
 do
-    cd System_$i
+    cd System-$i
     
     nocamsraw=`ls *.nocams`
     nocams="${nocamsraw%.*}"
@@ -89,7 +100,13 @@ do
     j=1
     
     while [ $j -le $nocamsint ]
-        cd Camera_$j
-        ./Record.sh &
+        cd Camera-$j
+
+        wget -qO - <em>https://raw.githubusercontent.com/maarao/Image-Creation/main/sti05/Record.sh</em> | bash &
+
+        cd ..
     do
+    
+    cd ..
+
 done
