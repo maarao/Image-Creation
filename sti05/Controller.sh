@@ -7,7 +7,7 @@ check=`ls *.done`
 expected="setup.done"
 
 # Setup
-if [ $check != $expected ]
+if [[ $check -ne $expected ]]
 then
     mkdir .record && cd .record
     # Delete all subdirectories if setting up again
