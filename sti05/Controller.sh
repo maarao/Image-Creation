@@ -28,6 +28,8 @@ then
         mkdir System-$i && cd System-$i
         mkdir ~/backup/System-$i
 
+        touch $i.vr
+
         printf "Brand of DVR / NVR:\n1.Lorex\n2.LTS\n"
         read vrtype
         if [ $vrtype -eq "1" ]

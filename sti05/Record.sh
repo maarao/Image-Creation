@@ -6,7 +6,7 @@ move_vid () {
     if (( $(echo "$dur > 10.00" |bc -l) ))
     then
         # Must have this directory created during setup
-        cp $1 ~/backup/System-$vrtype/Camera-$camera/
+        cp $1 ~/backup/System-$vr/Camera-$camera/
     fi
     
     # Garbage collection happening on disk right now. Change directory if you want it on gcp.
@@ -18,6 +18,9 @@ work_dir="`pwd`"
 cd ..
 vrtyperaw=`ls *.vrtype`
 vrtype="${vrtyperaw%.*}"
+
+vrraw=`ls *.vr`
+vr="${vrraw%.*}"
 
 vripraw=`ls *.vrip`
 vrip="${vripraw%.*}"
