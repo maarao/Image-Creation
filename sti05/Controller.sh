@@ -51,7 +51,7 @@ then
         read password
         touch $password.password
 
-        print "How many cameras are going to be backed up: "
+        printf "How many cameras are going to be backed up: "
         read nocams
         touch $nocams.nocams
 
