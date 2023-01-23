@@ -111,6 +111,7 @@ do
         cd ..
     done
     
+    ((i++))
     cd ..
 
 done
