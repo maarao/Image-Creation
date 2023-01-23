@@ -10,8 +10,6 @@ expected='setup.done'
 if [[ $check != $expected ]]
 then
     mkdir .record && cd .record
-    # Delete all subdirectories if setting up again
-    rm -R -- */
 
     printf "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
     
