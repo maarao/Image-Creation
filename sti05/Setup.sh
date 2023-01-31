@@ -4,6 +4,7 @@
 sudo apt install motion
 
 # Add as a service to run as root
+sudo service motion start
 sudo touch /etc/systemd/system/motion.service
 printf "[Unit]\nDescription=Motion service\n\n[Service]\nExecStart=/usr/bin/motion\nRestart=always\n\n[Install]\nWantedBy=multi-user.target" | sudo tee -a /etc/systemd/system/motion.service
 
