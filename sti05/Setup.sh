@@ -4,7 +4,6 @@
 sudo -s
 
 # Motion configuration
-touch /etc/motion/motion.conf
 apt install motion
 
 # Add as a service to run as root
@@ -12,6 +11,8 @@ touch /etc/systemd/system/motion.service
 printf "[Unit]\nDescription=Motion service\n\n[Service]\nExecStart=/usr/bin/motion\nRestart=always\n\n[Install]\nWantedBy=multi-user.target" | tee -a /etc/systemd/system/motion.service
 
 # Setup base motion.conf
+rm /etc/motion/motion.conf
+touch /etc/motion/motion.conf
 printf "daemon off\nsetup_mode off\nlog_level 6\nemulate_motion off\nthreshold 1500\ndespeckle_filter EedDl\nminimum_motion_frames 1\nevent_gap 60\npre_capture 3\npost_capture 0\npicture_output off\nmovie_output on\nmovie_max_time 900\nmovie_quality 0\nmovie_codec mkv\nwebcontrol_parms 0\nstream_port 0\nwidth 1280\nheight 720\nframerate 15\ntarget_dir /backup/\nmovie_filename %%\$/%%Y-%%m-%%d/%%T" | tee -a /etc/motion/motion.conf
 
 printf "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
