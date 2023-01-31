@@ -1,86 +1,75 @@
 #!/bin/bash
 
-# TODO: Change directories to the place where everything is stored
-cd ~/
+# Motion configuration
+sudo apt install motion
 
-check=`ls *.done`
-expected='setup.done'
+# Add as a service to run as root
+sudo touch /etc/systemd/system/motion.service
+printf "[Unit]\nDescription=Motion service\n\n[Service]\nExecStart=/usr/bin/motion\nRestart=always\n\n[Install]\nWantedBy=multi-user.target" | sudo tee -a /etc/systemd/system/motion.service
 
-# Setup
-if [[ $check != $expected ]]
-then
-    # Motion configuration
-    sudo apt install motion
+# Setup base motion.conf
+sudo touch /etc/motion/motion.conf
+printf "daemon off\nsetup_mode off\nlog_level 6\nemulate_motion off\nthreshold 1500\ndespeckle_filter EedDl\nminimum_motion_frames 1\nevent_gap 60\npre_capture 3\npost_capture 0\npicture_output off\nmovie_output on\nmovie_max_time 900\nmovie_quality 0\nmovie_codec mkv\nwebcontrol_parms 0\nstream_port 0\nwidth 1280\nheight 720\nframerate 15\ntarget_dir /backup/\nmovie_filename %%\$/%%Y-%%m-%%d/%%T" | sudo tee -a /etc/motion/motion.conf
 
-    # TODO Add as a service to run as root
-    
-    
-    mkdir .record && cd .record
+printf "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
 
-    printf "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-    
-    # Ask for number of NVRs/DVRs
-    printf "How many NVRs/DVRs are present: "
-    read novrs
-    touch $novrs.novrs
-    
-    # Create diffreent directories for all systems
-    novrsint=$((novrs))
-    i=1
-    while [ $i -le $novrsint ]
+# Ask for number of NVRs/DVRs
+printf "How many NVRs/DVRs are present: "
+read novrs
+
+# Create diffreent directories for all systems
+novrsint=$((novrs))
+i=1
+while [ $i -le $novrsint ]
+do
+
+    printf "Brand of DVR / NVR:\n1.Lorex\n2.LTS\n"
+    read vrtype
+
+    printf "NVR/DVR IP: "
+    read vrip
+
+    printf "NVR/DVR Username: "
+    read username
+
+    printf "NVR/DVR Password: "
+    read password
+
+    printf "How many cameras are going to be backed up: "
+    read nocams
+
+    # Create directory for motion config files
+    sudo mkdir /etc/motion/$vr
+
+    # Create different directories for all cameras
+    nocamsint=$((nocams))
+    j=1
+    while [ $j -le $nocamsint ]
     do
-        mkdir System-$i && cd System-$i
-        mkdir ~/backup/System-$i
+        printf "Camera Number: "
+        read camera
 
-        touch $i.vr
+        touch /etc/motion/$vr/camera$camera.conf
 
-        printf "Brand of DVR / NVR:\n1.Lorex\n2.LTS\n"
-        read vrtype
+        # LOREX
         if [ $vrtype -eq "1" ]
         then
-            touch LOREX.vrtype
+            printf "netcam_url rtsp://${username}:${password}@${vrip}:554/cam/realmonitor?channel=${camera}&subtype=0" | sudo tee -a /etc/motion/System-$i/camera$camera.conf
         fi
+        
+        # LTS - Note the port change
         if [ $vrtype -eq "2" ]
         then
-            touch LTS.vrtype
+            printf "rtsp://${username}:${password}@${vrip}:8544/streaming/channels/${camera}02" | sudo tee -a /etc/motion/System-$i/camera$camera.conf
         fi
 
-        printf "NVR/DVR IP: "
-        read vrip
-        touch $vrip.vrip
-
-        printf "NVR/DVR Username: "
-        read username
-        touch $username.username
-
-        printf "NVR/DVR Password: "
-        read password
-        touch $password.password
-
-        printf "How many cameras are going to be backed up: "
-        read nocams
-        touch $nocams.nocams
-
-        # Create directory for motion config files
-        sudo mkdir /etc/motion/$vr
-
-        # Create different directories for all cameras
-        nocamsint=$((nocams))
-        j=1
-        while [ $j -le $nocamsint ]
-        do
-            touch /etc/motion/$vr/camera$j.conf
-            echo netcam | sudo tee -a /etc/fstab
-            
-            ((j++))
-        done
-
-        cd ..
-
-        ((i++))
+        printf "camera /etc/motion/System-$i/camera$camera.conf" | sudo tee -a /etc/motion/motion.conf
+        
+        ((j++))
     done
-    
-    cd ~/
-    touch setup.done
 
-fi
+    ((i++))
+done
+
+sudo systemctl enable motion
+sudo service motion start
