@@ -1,19 +1,16 @@
 #!/bin/bash
 
-# Run setup as sudo
-sudo -s
-
 # Motion configuration
-apt install motion
+sudo apt install motion
 
 # Add as a service to run as root
-touch /etc/systemd/system/motion.service
-printf "[Unit]\nDescription=Motion service\n\n[Service]\nExecStart=/usr/bin/motion\nRestart=always\n\n[Install]\nWantedBy=multi-user.target" | tee -a /etc/systemd/system/motion.service
+sudo touch /etc/systemd/system/motion.service
+printf "[Unit]\nDescription=Motion service\n\n[Service]\nExecStart=/usr/bin/motion\nRestart=always\n\n[Install]\nWantedBy=multi-user.target" | sudo tee -a /etc/systemd/system/motion.service
 
 # Setup base motion.conf
-rm /etc/motion/motion.conf
-touch /etc/motion/motion.conf
-printf "daemon off\nsetup_mode off\nlog_level 6\nemulate_motion off\nthreshold 1500\ndespeckle_filter EedDl\nminimum_motion_frames 1\nevent_gap 60\npre_capture 3\npost_capture 0\npicture_output off\nmovie_output on\nmovie_max_time 900\nmovie_quality 0\nmovie_codec mkv\nwebcontrol_parms 0\nstream_port 0\nwidth 1280\nheight 720\nframerate 15\ntarget_dir /backup/\nmovie_filename %%\$/%%Y-%%m-%%d/%%T" | tee -a /etc/motion/motion.conf
+sudo rm /etc/motion/motion.conf
+sudo touch /etc/motion/motion.conf
+printf "daemon off\nsetup_mode off\nlog_level 6\nemulate_motion off\nthreshold 1500\ndespeckle_filter EedDl\nminimum_motion_frames 1\nevent_gap 60\npre_capture 3\npost_capture 0\npicture_output off\nmovie_output on\nmovie_max_time 900\nmovie_quality 0\nmovie_codec mkv\nwebcontrol_parms 0\nstream_port 0\nwidth 1280\nheight 720\nframerate 15\ntarget_dir /backup/\nmovie_filename %%\$/%%Y-%%m-%%d/%%T" | sudo tee -a /etc/motion/motion.conf
 
 printf "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
 
@@ -49,21 +46,21 @@ do
         printf "Camera Number: "
         read camera
 
-        touch /etc/motion/System-$i/Camera-$camera.conf
+        sudo touch /etc/motion/System-$i/Camera-$camera.conf
 
         # LOREX
         if [ $vrtype -eq "1" ]
         then
-            printf "netcam_url rtsp://${username}:${password}@${vrip}:554/cam/realmonitor?channel=${camera}&subtype=0" | tee -a /etc/motion/System-$i/Camera-$camera.conf
+            printf "netcam_url rtsp://${username}:${password}@${vrip}:554/cam/realmonitor?channel=${camera}&subtype=0" | sudo tee -a /etc/motion/System-$i/Camera-$camera.conf
         fi
         
         # LTS - Note the port change
         if [ $vrtype -eq "2" ]
         then
-            printf "rtsp://${username}:${password}@${vrip}:8544/streaming/channels/${camera}02" | tee -a /etc/motion/System-$i/Camera-$camera.conf
+            printf "rtsp://${username}:${password}@${vrip}:8544/streaming/channels/${camera}02" | sudo tee -a /etc/motion/System-$i/Camera-$camera.conf
         fi
         
-        printf "camera /etc/motion/System-$i/Camera-$camera.conf" | tee -a /etc/motion/motion.conf
+        printf "camera /etc/motion/System-$i/Camera-$camera.conf" | sudo tee -a /etc/motion/motion.conf
         
         ((j++))
     done
