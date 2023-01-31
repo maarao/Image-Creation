@@ -48,7 +48,7 @@ do
 
         sudo mkdir /etc/motion/System-$i
         sudo touch /etc/motion/System-$i/Camera-$camera.conf
-        printf "camera_name Camera-$camera" | sudo tee -a /etc/motion/motion.config
+        printf "camera_name Camera-$camera" | sudo tee -a /etc/motion/System-$i/Camera-$camera.conf
         
         # LOREX
         if [ $vrtype -eq "1" ]
