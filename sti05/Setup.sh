@@ -63,6 +63,8 @@ do
         fi
                 
         printf "\ncamera /etc/motion/System-$i/Camera-$camera.conf" | sudo tee -a /etc/motion/motion.conf
+
+        printf "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
         
         ((j++))
     done
