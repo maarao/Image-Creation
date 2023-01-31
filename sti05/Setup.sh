@@ -19,7 +19,6 @@ printf "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 printf "How many NVRs/DVRs are present: "
 read novrs
 
-# Create diffreent directories for all systems
 novrsint=$((novrs))
 i=1
 while [ $i -le $novrsint ]
