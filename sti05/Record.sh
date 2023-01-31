@@ -6,11 +6,11 @@ move_vid () {
     if (( $(echo "$dur > 10.00" |bc -l) ))
     then
         # Must have this directory created during setup
-        cp $1 ~/backup/System-$vr/Camera-$camera/
+        mv $1 ~/backup/System-$vr/Camera-$camera/$1
     fi
     
     # Garbage collection happening on disk right now. Change directory if you want it on gcp.
-    rm $1
+    rm *.mkv
 }
 
 work_dir="`pwd`"
@@ -45,6 +45,7 @@ then
     while :
     do
         ffmpeg -hide_banner -y -loglevel error -rtsp_transport tcp -use_wallclock_as_timestamps 1 -i "rtsp://${username}:${password}@${vrip}:554/cam/realmonitor?channel=${camera}&subtype=0" -vcodec copy -acodec copy -f segment -reset_timestamps 1 -segment_time 900 -segment_format mkv -segment_atclocktime 1 -strftime 1 %Y-%m-%d-%H-%M-%S.mkv
+        #ffmpeg -hide_banner -y -loglevel error -rtsp_transport tcp -use_wallclock_as_timestamps 1 -i "rtsp://admin:a1234567@192.168.1.11:554/cam/realmonitor?channel=2&subtype=0" -vcodec copy -acodec copy -strftime 1 %Y-%m-%dT-%H-%M-%S.mkv
         move_vid `ls *.mkv`
     done
 fi
