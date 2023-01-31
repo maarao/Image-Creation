@@ -69,7 +69,7 @@ do
     ((i++))
 done
 
-systemctl enable motion
-service motion start
+sudo systemctl enable motion
+sudo service motion start
 
 reboot
