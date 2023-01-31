@@ -47,20 +47,21 @@ do
         read camera
 
         sudo touch /etc/motion/System-$i/Camera-$camera.conf
-
+        printf "camera_name Camera-$camera" | sudo tee -a /etc/motion/motion.config
+        
         # LOREX
         if [ $vrtype -eq "1" ]
         then
-            printf "netcam_url rtsp://${username}:${password}@${vrip}:554/cam/realmonitor?channel=${camera}&subtype=0" | sudo tee -a /etc/motion/System-$i/Camera-$camera.conf
+            printf "\nnetcam_url rtsp://${username}:${password}@${vrip}:554/cam/realmonitor?channel=${camera}&subtype=0" | sudo tee -a /etc/motion/System-$i/Camera-$camera.conf
         fi
         
         # LTS - Note the port change
         if [ $vrtype -eq "2" ]
         then
-            printf "rtsp://${username}:${password}@${vrip}:8544/streaming/channels/${camera}02" | sudo tee -a /etc/motion/System-$i/Camera-$camera.conf
+            printf "\nnetcam_url rtsp://${username}:${password}@${vrip}:8544/streaming/channels/${camera}02" | sudo tee -a /etc/motion/System-$i/Camera-$camera.conf
         fi
         
-        printf "camera /etc/motion/System-$i/Camera-$camera.conf" | sudo tee -a /etc/motion/motion.conf
+        printf "\ncamera /etc/motion/System-$i/Camera-$camera.conf" | sudo tee -a /etc/motion/motion.conf
         
         ((j++))
     done
@@ -70,3 +71,5 @@ done
 
 systemctl enable motion
 service motion start
+
+reboot
