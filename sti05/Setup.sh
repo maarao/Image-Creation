@@ -53,7 +53,7 @@ do
         # LTS - Note the port change
         if [ $vrtype -eq "1" ]
         then
-            printf "\nnetcam_url rtsp://${username}:${password}@${vrip}:8544/streaming/channels/${camera}02" | sudo tee -a /etc/motion/System-$i/Camera-$camera.conf
+            printf "\nnetcam_url rtsp://${username}:${password}@${vrip}:8554/streaming/channels/${camera}02" | sudo tee -a /etc/motion/System-$i/Camera-$camera.conf
         fi
 
         # LOREX
