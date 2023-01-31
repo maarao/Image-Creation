@@ -24,7 +24,7 @@ i=1
 while [ $i -le $novrsint ]
 do
 
-    printf "Brand of DVR / NVR:\n1.Lorex\n2.LTS\n"
+    printf "Brand of DVR / NVR:\n1.LTS\n2.Lorex\n"
     read vrtype
 
     printf "NVR/DVR IP: "
@@ -50,18 +50,18 @@ do
         sudo touch /etc/motion/System-$i/Camera-$camera.conf
         printf "camera_name Camera-$camera" | sudo tee -a /etc/motion/System-$i/Camera-$camera.conf
         
-        # LOREX
-        if [ $vrtype -eq "1" ]
-        then
-            printf "\nnetcam_url rtsp://${username}:${password}@${vrip}:554/cam/realmonitor?channel=${camera}&subtype=0" | sudo tee -a /etc/motion/System-$i/Camera-$camera.conf
-        fi
-        
         # LTS - Note the port change
-        if [ $vrtype -eq "2" ]
+        if [ $vrtype -eq "1" ]
         then
             printf "\nnetcam_url rtsp://${username}:${password}@${vrip}:8544/streaming/channels/${camera}02" | sudo tee -a /etc/motion/System-$i/Camera-$camera.conf
         fi
-        
+
+        # LOREX
+        if [ $vrtype -eq "2" ]
+        then
+            printf "\nnetcam_url rtsp://${username}:${password}@${vrip}:554/cam/realmonitor?channel=${camera}&subtype=0" | sudo tee -a /etc/motion/System-$i/Camera-$camera.conf
+        fi
+                
         printf "\ncamera /etc/motion/System-$i/Camera-$camera.conf" | sudo tee -a /etc/motion/motion.conf
         
         ((j++))
