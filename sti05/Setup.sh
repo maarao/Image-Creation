@@ -49,23 +49,27 @@ do
         printf "Camera Number: "
         read camera
 
-        sudo mkdir /etc/motion/System-$i
-        sudo touch /etc/motion/System-$i/Camera-$camera.conf
-        printf "camera_name Camera-$camera" | sudo tee -a /etc/motion/System-$i/Camera-$camera.conf
+        
         
         # LTS - Note the port change
         if [ $vrtype -eq "1" ]
         then
-            printf "\nnetcam_url rtsp://${username}:${password}@${vrip}:8554/streaming/channels/${camera}02\ntarget_dir /backup/System-$i" | sudo tee -a /etc/motion/System-$i/Camera-$camera.conf
+            sudo mkdir /etc/motion/LTS-$i
+            sudo touch /etc/motion/LTS-$i/Camera-$camera.conf
+            printf "camera_name Camera-$camera" | sudo tee -a /etc/motion/LTS-$i/Camera-$camera.conf
+            printf "\nnetcam_url rtsp://${username}:${password}@${vrip}:8554/streaming/channels/${camera}02\ntarget_dir /backup/LTS-$i" | sudo tee -a /etc/motion/LTS-$i/Camera-$camera.conf
+            printf "\ncamera /etc/motion/LTS-$i/Camera-$camera.conf" | sudo tee -a /etc/motion/motion.conf
         fi
 
         # LOREX
         if [ $vrtype -eq "2" ]
         then
-            printf "\nnetcam_url rtsp://${username}:${password}@${vrip}:554/cam/realmonitor?channel=${camera}&subtype=0\ntarget_dir /backup/System-$i" | sudo tee -a /etc/motion/System-$i/Camera-$camera.conf
+            sudo mkdir /etc/motion/LOREX-$i
+            sudo touch /etc/motion/LOREX-$i/Camera-$camera.conf
+            printf "camera_name Camera-$camera" | sudo tee -a /etc/motion/LOREX-$i/Camera-$camera.conf
+            printf "\nnetcam_url rtsp://${username}:${password}@${vrip}:554/cam/realmonitor?channel=${camera}&subtype=0\ntarget_dir /backup/LOREX-$i" | sudo tee -a /etc/motion/LOREX-$i/Camera-$camera.conf
+            printf "\ncamera /etc/motion/LOREX-$i/Camera-$camera.conf" | sudo tee -a /etc/motion/motion.conf
         fi
-                
-        printf "\ncamera /etc/motion/System-$i/Camera-$camera.conf" | sudo tee -a /etc/motion/motion.conf
 
         printf "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
         
