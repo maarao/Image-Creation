@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Reset everything in-case it is a re-setup
-sudo apt remove motion && sudo rm -r /etc/motion/ && sudo sudo systemctl disable motion && sudo rm /etc/systemd/system/motion.service
+sudo apt remove motion -y && sudo rm -r /etc/motion/ && sudo sudo systemctl disable motion && sudo rm /etc/systemd/system/motion.service
 
 # Motion configuration
-sudo apt install motion
+sudo apt install motion -y
 
 # Add as a service to run as root
 sudo service motion start
@@ -14,7 +14,7 @@ printf "[Unit]\nDescription=Motion service\n\n[Service]\nExecStart=/usr/bin/moti
 # Setup base motion.conf
 sudo rm /etc/motion/motion.conf
 sudo touch /etc/motion/motion.conf
-printf "daemon off\nsetup_mode off\nlog_level 6\nemulate_motion off\nthreshold 1500\ndespeckle_filter EedDl\nminimum_motion_frames 1\nevent_gap 60\npre_capture 3\npost_capture 0\npicture_output off\nmovie_output on\nmovie_max_time 900\nmovie_passthrough on\nmovie_codec mkv\nwebcontrol_parms 0\nstream_port 0\nwidth 1280\nheight 720\nframerate 15\nmovie_filename %%\$/%%Y-%%m-%%d/%%T" | sudo tee -a /etc/motion/motion.conf
+printf "daemon off\nsetup_mode off\nlog_level 6\nemulate_motion off\nthreshold 1500\ndespeckle_filter EedDl\nminimum_motion_frames 1\nevent_gap 60\npre_capture 3\npost_capture 0\npicture_output off\nmovie_output on\nmovie_max_time 900\nmovie_passthrough on\nwebcontrol_parms 0\nstream_port 0\nwidth 1280\nheight 720\nframerate 15\nmovie_filename %%\$/%%Y-%%m-%%d/%%T" | sudo tee -a /etc/motion/motion.conf
 
 printf "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
 
