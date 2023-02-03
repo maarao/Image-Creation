@@ -1,4 +1,27 @@
 #!/bin/bash
+cd ~/
+
+check=`ls *.done`
+expected='gcs.done'
+
+# Setup
+if [[ $check != $expected ]]
+then
+    firefox mail.google.com
+
+    cd ~/Downloads
+    filename=`ls *.json`
+    user="${filename%.*}"
+
+    mv ~/Downloads/$user.json ~/.$user.json
+
+    sudo sed -i '$d' /etc/fstab
+    echo st-$user /backup/ gcsfuse rw,_netdev,allow_other,uid=1000,key_file=/home/sti05/.$user.json | sudo tee -a /etc/fstab
+
+    rm -R ~/snap/firefox/
+
+    touch gcs.done
+fi
 
 # Reset everything in-case it is a re-setup
 sudo apt remove motion -y && sudo rm -r /etc/motion/ && sudo sudo systemctl disable motion && sudo rm /etc/systemd/system/motion.service
