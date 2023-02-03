@@ -24,7 +24,7 @@ then
 fi
 
 # Reset everything in-case it is a re-setup
-sudo apt remove motion -y && sudo rm -r /etc/motion/ && sudo sudo systemctl disable motion && sudo rm /etc/systemd/system/motion.service
+sudo apt remove motion -y && sudo rm -r /etc/motion/ && sudo sudo systemctl disable motion && sudo rm /etc/systemd/system/motion.service && sudo rm -r ~/.config/autostart
 
 # Motion configuration
 sudo apt install motion -y
@@ -104,5 +104,11 @@ done
 
 sudo systemctl enable motion
 sudo service motion start
+
+mkdir ~/.config/autostart
+touch ~/.config/autostart/open-backup-directory.desktop
+
+# Adds directory to open on startup
+printf "[Desktop Entry]\nExec=xdg-open /backup\nName=open-backup-directory\nType=Application\nVersion=1.0" | tee -a ~/.config/autostart/open-backup-directory.desktop
 
 reboot
