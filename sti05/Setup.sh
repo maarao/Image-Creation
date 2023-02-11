@@ -77,10 +77,26 @@ do
         # LTS - Note the port change
         if [ $vrtype -eq "1" ]
         then
+            printf "Where is the camera connected into?\n1. Device\n2. Network"
+            read connecttype
+            
             sudo mkdir /etc/motion/LTS-$i
             sudo touch /etc/motion/LTS-$i/Camera-$camera.conf
             printf "camera_name Camera-$camera" | sudo tee -a /etc/motion/LTS-$i/Camera-$camera.conf
-            printf "\nnetcam_url rtsp://${username}:${password}@${vrip}:8554/streaming/channels/${camera}02\ntarget_dir /backup/LTS-$i" | sudo tee -a /etc/motion/LTS-$i/Camera-$camera.conf
+            
+            if [ $connecttype -eq "1" ]
+            then
+                printf "\nnetcam_url rtsp://${username}:${password}@${vrip}:8554/streaming/channels/${camera}02\ntarget_dir /backup/LTS-$i" | sudo tee -a /etc/motion/LTS-$i/Camera-$camera.conf
+            fi
+
+            if [ $connecttype -eq "2" ]
+            then
+                printf "Camera IP: "
+                read camip
+
+                printf "\nnetcam_url rtsp://${username}:${password}@${camip}:554/streaming/channels/102\ntarget_dir /backup/LTS-$i" | sudo tee -a /etc/motion/LTS-$i/Camera-$camera.conf
+            fi
+            
             printf "\ncamera /etc/motion/LTS-$i/Camera-$camera.conf" | sudo tee -a /etc/motion/motion.conf
         fi
 
