@@ -77,7 +77,7 @@ do
         # LTS - Note the port change
         if [ $vrtype -eq "1" ]
         then
-            printf "Where is the camera connected into?\n1. Device\n2. Network"
+            printf "Where is the camera connected into?\n1. Device\n2. Network\n"
             read connecttype
             
             sudo mkdir /etc/motion/LTS-$i
