@@ -33,6 +33,9 @@ then
     printf "What is the wifi router IP: "
     read routerip
 
+    printf "What is the Domian Name Server: "
+    read domainnameserv
+
     printf "Assign a static IP to the device: "
     read deviceip
 
@@ -43,7 +46,7 @@ then
     printf "interface eth0" | sudo tee -a /etc/dhcpcd.conf
     echo static_routers=$routerip | sudo tee -a /etc/dhcpcd.conf
     # TODO: Figure out what this does
-    printf "static domain_name_servers=192.168.1.1" | sudo tee -a /etc/dhcpcd.conf
+    echo static domain_name_servers=$domainnameserv | sudo tee -a /etc/dhcpcd.conf
     echo static ip_address=$deviceip/24 | sudo tee -a /etc/dhcpcd.conf
 
     touch ip.done
