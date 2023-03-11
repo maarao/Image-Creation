@@ -33,7 +33,7 @@ then
     printf "What is the Wifi Router IP: "
     read routerip
 
-    printf "What is the Domian Name Server: "
+    printf "What is the Domain Name Server: "
     read domainnameserv
 
     printf "Assign a Static IP to the device: "
