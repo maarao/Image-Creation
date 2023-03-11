@@ -13,10 +13,12 @@ then
     filename=`ls *.json`
     user="${filename%.*}"
 
-    mv ~/Downloads/$user.json ~/.$user.json
+    mv ~/Downloads/$user.json ~/.key.json
 
-    sudo sed -i '$d' /etc/fstab
-    echo st-$user /backup/ gcsfuse rw,_netdev,allow_other,uid=1000,key_file=/home/sti05/.$user.json | sudo tee -a /etc/fstab
+    rm ~/rclone.conf
+    touch rclone.conf
+    printf "[gcs]\ntype = google cloud storage\nservice_account_file = /home/sti05/.key.json\nbucket_policy_only = true\nlocation = us-east1"  | tee -a ~/rclone.conf
+
 
     rm -R ~/snap/firefox/
 
@@ -25,7 +27,7 @@ fi
 
 check=`ls ip.done`
 expected='ip.done'
-# GCS Setup
+# Static IP
 if [[ $check != $expected ]]
 then
     printf "What is the wifi router IP: "
@@ -34,13 +36,15 @@ then
     printf "Assign a static IP to the device: "
     read deviceip
 
-
+    sudo rm /etc/dhcpcd.conf
+    sudo touch /etc/dhcpcd.conf
+    printf "hostname\nclientid\npersistent\noption rapid_commit\noption domain_name_servers, domain_name, domain_search, host_name\noption classless_static_routes\noption interface_mtu\nrequire dhcp_server_identifier\nslaac private\n" | sudo tee -a /etc/dhcpcd.conf
+    
     printf "interface eth0" | sudo tee -a /etc/dhcpcd.conf
     echo static_routers=$routerip | sudo tee -a /etc/dhcpcd.conf
     # TODO: Figure out what this does
     printf "static domain_name_servers=192.168.1.1" | sudo tee -a /etc/dhcpcd.conf
-    echo static ip_address=$deviceip | sudo tee -a /etc/dhcpcd.conf
-    # TODO: Figure out how to remove all of this just in case we need to reset this
+    echo static ip_address=$deviceip/24 | sudo tee -a /etc/dhcpcd.conf
 
     touch ip.done
 fi
@@ -93,8 +97,6 @@ do
     do
         printf "Camera Number: "
         read camera
-
-        
         
         # LTS - Note the port change
         if [ $vrtype -eq "1" ]
@@ -145,7 +147,7 @@ sudo service motion start
 
 mkdir ~/.config/autostart
 touch ~/.config/autostart/open-backup-directory.desktop
-
+touch ~/.config/autostart/rclone.desktop
 # Adds directory to open on startup
 printf "[Desktop Entry]\nExec=xdg-open /backup\nName=open-backup-directory\nType=Application\nVersion=1.0" | tee -a ~/.config/autostart/open-backup-directory.desktop
 printf "[Desktop Entry]\nExec=rclone mount gcs:st-lin-vm-1 /home/sti05/backup --vfs-cache-mode writes --config=/home/sti05/rclone.conf\nName=rclone\nType=Application\nVersion=1.0" | tee -a ~/.config/autostart/rclone.desktop
