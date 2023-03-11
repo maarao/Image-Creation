@@ -30,13 +30,13 @@ expected='ip.done'
 # Static IP
 if [[ $check != $expected ]]
 then
-    printf "What is the wifi router IP: "
+    printf "What is the Wifi Router IP: "
     read routerip
 
     printf "What is the Domian Name Server: "
     read domainnameserv
 
-    printf "Assign a static IP to the device: "
+    printf "Assign a Static IP to the device: "
     read deviceip
 
     sudo rm /etc/dhcpcd.conf
