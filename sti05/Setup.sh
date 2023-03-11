@@ -1,10 +1,24 @@
 #!/bin/bash
 cd ~/
 
-check=`ls gcs.done`
-expected='gcs.done'
+# SSH Setup
+check=`ls ssh.done`
+expected='ssh.done'
+if [[ $check != $expected ]]
+then
+    sudo rm /etc/ssh/sshd_config
+    sudo touch /etc/ssh/sshd_config
+
+    printf "Include /etc/ssh/sshd_config.d/*.conf\nPasswordAuthentication yes\nChallengeResponseAuthentication no\nUsePAM yes\nX11Forwarding yes\nPrintMotd no\nAcceptEnv LANG LC_*\nSubsystem	sftp	/usr/lib/openssh/sftp-server" | sudo tee -a /etc/ssh/sshd_config
+
+    sudo systemctl enable ssh
+
+    touch ssh.done
+fi
 
 # GCS Setup
+check=`ls gcs.done`
+expected='gcs.done'
 if [[ $check != $expected ]]
 then
     firefox mail.google.com
@@ -17,7 +31,7 @@ then
 
     rm ~/rclone.conf
     touch rclone.conf
-    printf "[gcs]\ntype = google cloud storage\nservice_account_file = /home/sti05/.key.json\nbucket_policy_only = true\nlocation = us-east1"  | tee -a ~/rclone.conf
+    printf "[gcs]\ntype = google cloud storage\nservice_account_file = /home/sti05/.key.json\nbucket_policy_only = true\nlocation = us-east1" | tee -a ~/rclone.conf
 
 
     rm -R ~/snap/firefox/
@@ -25,9 +39,9 @@ then
     touch gcs.done
 fi
 
+# Static IP
 check=`ls ip.done`
 expected='ip.done'
-# Static IP
 if [[ $check != $expected ]]
 then
     printf "What is the Wifi Router IP: "
@@ -154,4 +168,5 @@ touch ~/.config/autostart/rclone.desktop
 # Adds directory to open on startup
 printf "[Desktop Entry]\nExec=xdg-open /backup\nName=open-backup-directory\nType=Application\nVersion=1.0" | tee -a ~/.config/autostart/open-backup-directory.desktop
 printf "[Desktop Entry]\nExec=rclone mount gcs:st-lin-vm-1 /home/sti05/backup --vfs-cache-mode writes --config=/home/sti05/rclone.conf\nName=rclone\nType=Application\nVersion=1.0" | tee -a ~/.config/autostart/rclone.desktop
+sudo systemctl start ssh
 reboot
